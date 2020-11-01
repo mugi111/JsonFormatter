@@ -1,19 +1,14 @@
 import React from 'react';
-import { Button, Select } from 'antd';
-import { InputTypes } from '../Types';
+import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
-const { Option } = Select;
+import { ModelsForm } from './ModelsForm';
+import '../Styles/models-tab.scss';
 
 export const ModelsTab: React.FC = () => {
   return (
     <div>
-      <Select defaultValue="String">
-        <Option value={InputTypes.String}>{InputTypes.String}</Option>
-        <Option value={InputTypes.Number}>{InputTypes.Number}</Option>
-        <Option value={InputTypes.Boolean}>{InputTypes.Boolean}</Option>
-      </Select>
-      <Button>
+      <ModelsForm></ModelsForm>
+      <Button className="models-tab__button">
         <PlusOutlined />
       </Button>
     </div>
