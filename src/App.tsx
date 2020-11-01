@@ -1,24 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Tabs } from 'antd';
+import { ModelsTab } from './Components/ModelsTab';
+
+const { TabPane } = Tabs;
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Tabs defaultActiveKey="1">
+        <TabPane tab="Models" key="1">
+          <ModelsTab></ModelsTab>
+        </TabPane>
+      </Tabs>
     </div>
   );
 }
