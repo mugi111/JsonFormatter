@@ -44,6 +44,11 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
         <Option value={InputTypes.string}>{InputTypes.string}</Option>
         <Option value={InputTypes.number}>{InputTypes.number}</Option>
         <Option value={InputTypes.boolean}>{InputTypes.boolean}</Option>
+        {modelsList.map((_, i) => {
+          return (
+            (props.formIndex != i) ? (<Option value={modelsList[i].id}>{modelsList[i].id}</Option>) : (<></>)
+          )
+        })}
       </Select>
       <Button danger className="models-form__button" onClick={deleteObjectHandler}>
         <CloseOutlined />
