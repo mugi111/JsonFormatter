@@ -11,7 +11,8 @@ export const ModelsTab: React.FC = () => {
 
   const addObjectHandler = () => {
     setModelsList((prev) => {
-      return prev.concat({ id: (prev.length + 1).toString(), contents: [] });
+      const tmpId = prev.length === 0 ? 1 : prev[prev.length - 1].id + 1;
+      return prev.concat({ id: tmpId, contents: [] });
     })
   }
 

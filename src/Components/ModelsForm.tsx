@@ -23,7 +23,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
-  const changeTypeHandler = (val: InputTypes) => {
+  const changeTypeHandler = (val: InputTypes | number) => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
       return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, type: val }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
@@ -33,7 +33,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
   const deleteObjectHandler = () => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
-      return prev.slice(0, props.formIndex).concat({ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }).concat(prev.slice((props.modelIndex + 1), prev.length));
+      return prev.slice(0, props.formIndex).concat({ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 
@@ -46,7 +46,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
         <Option value={InputTypes.boolean}>{InputTypes.boolean}</Option>
         {modelsList.map((_, i) => {
           return (
-            (props.formIndex != i) ? (<Option value={modelsList[i].id}>{modelsList[i].id}</Option>) : (<></>)
+            (props.formIndex !== i) ? (<Option value={modelsList[i].id}>{modelsList[i].id}</Option>) : (<></>)
           )
         })}
       </Select>

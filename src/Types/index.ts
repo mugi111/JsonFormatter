@@ -6,10 +6,10 @@ export enum InputTypes {
 
 export interface IModelsElem {
   key: string;
-  type: InputTypes;
+  type: InputTypes | number;
 }
 
 export interface IModelsList {
-  id: string;
+  id: number;
   contents: IModelsElem[];
 }
