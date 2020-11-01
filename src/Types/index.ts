@@ -1,5 +1,3 @@
-import { LabeledValue } from "antd/lib/select";
-
 export enum InputTypes {
   string = "String",
   number = "Number",
