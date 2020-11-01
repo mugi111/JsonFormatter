@@ -10,12 +10,19 @@ export const ModelsTab: React.FC = () => {
   const [modelsList, setModelsList] = useRecoilState(modelsListState)
 
   const addFormHandler = () => {
-
+    setModelsList((prev) => {
+      return prev.concat({ id: (prev.length + 1).toString(), contents: [] });
+    })
   }
 
   return (
-    <div>
-      {modelsList.map((_, i) => <ModelsForm></ModelsForm>)}
+    <div className="models-tab">
+      {modelsList.map((_, i) => {
+        return (
+          <ModelsForm></ModelsForm>
+        )
+      }
+      )}
       <Button className="models-tab__button" onClick={addFormHandler}>
         <PlusOutlined />
       </Button>

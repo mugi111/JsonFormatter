@@ -1,7 +1,9 @@
 .models-form {
-  margin: 5px;
-  border: 1px solid rgba($color: #000000, $alpha: 0.6);
-  border-radius: 3px;
+  margin: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px gray;
 
   &__input {
     margin: 5px !important;
