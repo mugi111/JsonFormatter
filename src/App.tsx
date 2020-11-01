@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Tabs } from 'antd';
 import { ModelsTab } from './Components/ModelsTab';
+import 'antd/dist/antd.css';
 
 const { TabPane } = Tabs;
 
