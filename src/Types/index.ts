@@ -5,7 +5,7 @@ export class InputTypes {
 }
 
 export interface IModelsElem {
-  Key: string;
+  key: string;
   type: InputTypes;
 }
 

@@ -1,26 +1,31 @@
 import React from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ModelsFormList } from './ModelsFormList';
+import { ModelsForm } from './ModelsForm';
 import { useRecoilState } from 'recoil';
 import { modelsListState } from '../Recoil/atom';
 import '../Styles/models-tab.scss';
+import { InputTypes } from '../Types';
 
-export const ModelsTab: React.FC = () => {
+interface Props {
+  formIndex: number;
+}
+
+export const ModelsFormList: React.FC<Props> = (props: Props) => {
   const [modelsList, setModelsList] = useRecoilState(modelsListState)
 
   const addFormHandler = () => {
     setModelsList((prev) => {
-      return prev.concat({ id: (prev.length + 1).toString(), contents: [] });
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: [...prev[props.formIndex].contents, { key: "", type: InputTypes.String }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 
   return (
     <div className="models-tab">
       <h3>id</h3>
-      {modelsList.map((_, i) => {
+      {modelsList[props.formIndex].contents.map((_, i) => {
         return (
-          <ModelsFormList formIndex={i}></ModelsFormList>
+          <ModelsForm></ModelsForm>
         )
       }
       )}
