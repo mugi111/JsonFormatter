@@ -1,7 +1,9 @@
-export class InputTypes {
-  static readonly String = "String";
-  static readonly Number = "Number";
-  static readonly Boolean = "Boolean";
+import { LabeledValue } from "antd/lib/select";
+
+export enum InputTypes {
+  string = "String",
+  number = "Number",
+  boolean = "Boolean",
 }
 
 export interface IModelsElem {

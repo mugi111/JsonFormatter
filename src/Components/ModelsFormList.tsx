@@ -16,7 +16,7 @@ export const ModelsFormList: React.FC<Props> = (props: Props) => {
 
   const addFormHandler = () => {
     setModelsList((prev) => {
-      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: [...prev[props.formIndex].contents, { key: "", type: InputTypes.String }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: [...prev[props.formIndex].contents, { key: "", type: InputTypes.string }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 

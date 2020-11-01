@@ -23,6 +23,13 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
+  const changeTypeHandler = (val: InputTypes) => {
+    setModelsList((prev) => {
+      const prevContent = prev[props.formIndex].contents;
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, type: val }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
+    })
+  }
+
   const deleteObjectHandler = () => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
@@ -33,14 +40,14 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
   return (
     <div className="models-form">
       <Input className="models-form__input" placeholder="Key" value={modelsList[props.formIndex].contents[props.modelIndex].key} onChange={changeKeyHandler}></Input>
-      <Select className="models-form__select" defaultValue="String">
-        <Option value={InputTypes.String}>{InputTypes.String}</Option>
-        <Option value={InputTypes.Number}>{InputTypes.Number}</Option>
-        <Option value={InputTypes.Boolean}>{InputTypes.Boolean}</Option>
+      <Select className="models-form__select" value={modelsList[props.formIndex].contents[props.modelIndex].type} defaultValue={InputTypes.string} onChange={changeTypeHandler}>
+        <Option value={InputTypes.string}>{InputTypes.string}</Option>
+        <Option value={InputTypes.number}>{InputTypes.number}</Option>
+        <Option value={InputTypes.boolean}>{InputTypes.boolean}</Option>
       </Select>
       <Button danger className="models-form__button" onClick={deleteObjectHandler}>
         <CloseOutlined />
       </Button>
-    </div>
+    </div >
   )
 }
