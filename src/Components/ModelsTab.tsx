@@ -17,7 +17,6 @@ export const ModelsTab: React.FC = () => {
 
   return (
     <div className="models-tab">
-      <h3>id</h3>
       {modelsList.map((_, i) => {
         return (
           <ModelsFormList formIndex={i}></ModelsFormList>

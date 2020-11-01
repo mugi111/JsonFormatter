@@ -22,7 +22,7 @@ export const ModelsFormList: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="models-tab">
-      <h3>id</h3>
+      <h3>{props.formIndex + 1}</h3>
       {modelsList[props.formIndex].contents.map((_, i) => {
         return (
           <ModelsForm></ModelsForm>
