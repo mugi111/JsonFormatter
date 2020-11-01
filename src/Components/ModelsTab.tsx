@@ -9,7 +9,7 @@ import '../Styles/models-tab.scss';
 export const ModelsTab: React.FC = () => {
   const [modelsList, setModelsList] = useRecoilState(modelsListState)
 
-  const addFormHandler = () => {
+  const addObjectHandler = () => {
     setModelsList((prev) => {
       return prev.concat({ id: (prev.length + 1).toString(), contents: [] });
     })
@@ -23,7 +23,7 @@ export const ModelsTab: React.FC = () => {
         )
       }
       )}
-      <Button className="models-tab__button" onClick={addFormHandler}>
+      <Button className="models-tab__button" onClick={addObjectHandler}>
         <PlusOutlined />
       </Button>
     </div>

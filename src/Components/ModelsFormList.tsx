@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { ModelsForm } from './ModelsForm';
 import { useRecoilState } from 'recoil';
 import { modelsListState } from '../Recoil/atom';
@@ -20,17 +20,26 @@ export const ModelsFormList: React.FC<Props> = (props: Props) => {
     })
   }
 
+  const deleteObjectHandler = () => {
+    setModelsList((prev) => {
+      return prev.slice(0, props.formIndex).concat(prev.slice((props.formIndex + 1), prev.length));
+    })
+  }
+
   return (
     <div className="models-tab">
       <h3>{props.formIndex + 1}</h3>
       {modelsList[props.formIndex].contents.map((_, i) => {
         return (
-          <ModelsForm></ModelsForm>
+          <ModelsForm formIndex={props.formIndex} modelIndex={i}></ModelsForm>
         )
       }
       )}
       <Button className="models-tab__button" onClick={addFormHandler}>
         <PlusOutlined />
+      </Button>
+      <Button danger className="models-form__button" onClick={deleteObjectHandler}>
+        <CloseOutlined />
       </Button>
     </div>
   )
