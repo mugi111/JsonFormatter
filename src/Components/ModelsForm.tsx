@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Select } from 'antd';
+import { Button, Checkbox, Input, Select } from 'antd';
 import { InputTypes } from '../Types';
 import '../Styles/models-form.scss';
 import { CloseOutlined } from '@ant-design/icons';
@@ -19,14 +19,21 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
   const changeKeyHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
-      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: e.target.value, type: prevContent[props.modelIndex].type }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: e.target.value, isArray: prevContent[props.modelIndex].isArray, type: prevContent[props.modelIndex].type }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 
   const changeTypeHandler = (val: InputTypes | number) => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
-      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, type: val }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, isArray: prevContent[props.modelIndex].isArray, type: val }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
+    })
+  }
+
+  const changeIsArrayHandler = (e: { target: { checked: boolean; }; }) => {
+    setModelsList((prev) => {
+      const prevContent = prev[props.formIndex].contents;
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, isArray: e.target.checked, type: prevContent[props.modelIndex].type }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 
@@ -50,6 +57,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
           )
         })}
       </Select>
+      <Checkbox className="models-form__checkbox" checked={modelsList[props.formIndex].contents[props.modelIndex].isArray} onChange={changeIsArrayHandler}></Checkbox>
       <Button danger className="models-form__button" onClick={deleteObjectHandler}>
         <CloseOutlined />
       </Button>

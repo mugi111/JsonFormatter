@@ -6,6 +6,7 @@ export enum InputTypes {
 
 export interface IModelsElem {
   key: string;
+  isArray: boolean;
   type: InputTypes | number;
 }
 
