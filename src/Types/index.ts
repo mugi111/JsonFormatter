@@ -28,5 +28,6 @@ export interface IObjectsElem extends IModelsElem {
 
 export interface IObjectsList {
   id: number;
+  modelId: number;
   model: IObjectsElem[];
 }

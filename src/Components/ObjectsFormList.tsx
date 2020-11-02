@@ -31,7 +31,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
         object.push({ key: e.key, type: e.type, isArray: e.isArray, value: [""] });
         return true;
       })
-      return prev.slice(0, props.formIndex).concat({ id: prev[props.formIndex].id, model: object }).concat(prev.slice(props.formIndex + 1, prev.length));
+      return prev.slice(0, props.formIndex).concat({ id: prev[props.formIndex].id, modelId: v, model: object }).concat(prev.slice(props.formIndex + 1, prev.length));
     })
   }
 
@@ -43,6 +43,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
         const prevModel = prev[props.formIndex].model[i];
         return prev.slice(0, props.formIndex).concat({
           id: prev[props.formIndex].id,
+          modelId: prev[props.formIndex].modelId,
           model: prev[props.formIndex].model.slice(0, i).concat({
             key: prevModel.key,
             type: prevModel.type,
@@ -56,6 +57,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
         [...Array(Number(v) - prev[props.formIndex].model[i].value.length)].forEach((_) => addObj.push(""));
         return prev.slice(0, props.formIndex).concat({
           id: prev[props.formIndex].id,
+          modelId: prev[props.formIndex].modelId,
           model: prev[props.formIndex].model.slice(0, i).concat({
             key: prevModel.key,
             type: prevModel.type,
@@ -72,6 +74,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
       const prevModel = prev[props.formIndex].model[i];
       return prev.slice(0, props.formIndex).concat({
         id: prev[props.formIndex].id,
+        modelId: prev[props.formIndex].modelId,
         model: prev[props.formIndex].model.slice(0, i).concat({
           key: prevModel.key,
           type: prevModel.type,
@@ -87,6 +90,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
       const prevModel = prev[props.formIndex].model[i];
       return prev.slice(0, props.formIndex).concat({
         id: prev[props.formIndex].id,
+        modelId: prev[props.formIndex].modelId,
         model: prev[props.formIndex].model.slice(0, i).concat({
           key: prevModel.key,
           type: prevModel.type,
@@ -102,6 +106,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
       const prevModel = prev[props.formIndex].model[i];
       return prev.slice(0, props.formIndex).concat({
         id: prev[props.formIndex].id,
+        modelId: prev[props.formIndex].modelId,
         model: prev[props.formIndex].model.slice(0, i).concat({
           key: prevModel.key,
           type: prevModel.type,
@@ -145,7 +150,14 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           } else if (e.type === InputTypes.boolean) {
             return <Checkbox defaultChecked={!!objectsList[props.formIndex].model[i].value[ifProps.index]} onChange={(e) => changeBooleanInputValue(e, i, ifProps.index)}></Checkbox>;
           } else {
-            return <Input placeholder="value"></Input>;
+            const matchList = objectsList.filter((e) => e.modelId === objectsList[props.formIndex].model[i].type);
+            return (
+              <Select>
+                {matchList.map((e) => {
+                  return <Option value={e.id}>{e.id}</Option>;
+                })}
+              </Select>
+            )
           }
         }
 
@@ -153,10 +165,10 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           <div>
             <ArraySize></ArraySize>
             <p>{e.value.length}</p>
+            <label>{e.key} : </label>
             {e.value.map((_, index) => {
               return (
                 <>
-                  <label>{e.key} : </label>
                   <InputField index={index}></InputField>
                 </>
               );
