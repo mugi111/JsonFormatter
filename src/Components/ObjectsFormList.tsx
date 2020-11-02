@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
-import { ModelsForm } from './ModelsForm';
 import { useRecoilState } from 'recoil';
 import { objectsListState } from '../Recoil/atom';
 import '../Styles/models-tab.scss';
@@ -21,6 +20,12 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
     })
   }
 
+  const deleteObjectsFormList = () => {
+    setObjectsList((prev) => {
+      return prev.slice(0, props.formIndex).concat(prev.slice((props.formIndex + 1), prev.length));
+    })
+  }
+
   return (
     <div className="models-tab">
       <h3>{objectsList[props.formIndex].id}</h3>
@@ -33,7 +38,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
       <Button className="models-tab__button" onClick={addObjectsFormList}>
         <PlusOutlined />
       </Button>
-      <Button danger className="models-form__button">
+      <Button danger className="models-form__button" onClick={deleteObjectsFormList}>
         <CloseOutlined />
       </Button>
     </div>

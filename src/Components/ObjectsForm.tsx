@@ -16,6 +16,13 @@ interface Props {
 export const ObjectsForm: React.FC<Props> = (props: Props) => {
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
 
+  const deleteObjectsForm = () => {
+    setObjectsList((prev) => {
+      const prevContent = prev[props.formIndex].contents;
+      return prev.slice(0, props.formIndex).concat({ id: prev[props.formIndex].id, contents: prevContent.slice(0, props.objectIndex).concat(prevContent.slice(props.objectIndex + 1, prevContent.length)) }).concat(prev.slice(props.formIndex + 1, prev.length));
+    })
+  }
+
   return (
     <div className="objects-form">
       <Input className="objects-form__input" placeholder="Key" value={objectsList[props.formIndex].contents[props.objectIndex].model.key} ></Input>
@@ -30,7 +37,7 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
         })}
       </Select>
       <Checkbox className="objects-form__checkbox" checked={objectsList[props.formIndex].contents[props.objectIndex].model.isArray} ></Checkbox>
-      <Button danger className="objects-form__button">
+      <Button danger className="objects-form__button" onClick={deleteObjectsForm}>
         <CloseOutlined />
       </Button>
     </div >
