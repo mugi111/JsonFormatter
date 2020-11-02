@@ -15,7 +15,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="models-tab">
-      <h3>{objectsList[props.formIndex]}</h3>
+      <h3>{objectsList[props.formIndex].id}</h3>
       {objectsList[props.formIndex].contents.map((_, i) => {
         return (
           <ModelsForm formIndex={props.formIndex} modelIndex={i}></ModelsForm>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Checkbox, Input, Select } from 'antd';
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
 import { objectsListState } from '../Recoil/atom';
 import '../Styles/objects-tab.scss';

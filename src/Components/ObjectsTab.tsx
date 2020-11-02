@@ -9,6 +9,13 @@ import '../Styles/models-tab.scss';
 export const ObjectsTab: React.FC = () => {
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
 
+  const addObjectHandler = () => {
+    setObjectsList((prev) => {
+      const tmpId = prev.length === 0 ? 1 : prev[prev.length - 1].id + 1;
+      return prev.concat({ id: tmpId, contents: [] });
+    })
+  }
+
   return (
     <div className="objects-tab">
       {objectsList.map((_, i) => {
@@ -16,7 +23,7 @@ export const ObjectsTab: React.FC = () => {
           <ObjectsFormList formIndex={i}></ObjectsFormList>
         );
       })}
-      <Button className="objects-tab__button">
+      <Button className="objects-tab__button" onClick={addObjectHandler}>
         <PlusOutlined />
       </Button>
     </div>
