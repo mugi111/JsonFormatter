@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Button, Checkbox, Input, InputNumber, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
@@ -42,17 +42,74 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
       } else if (Number(v) < prev[props.formIndex].model[i].value.length) {
         const prevModel = prev[props.formIndex].model[i];
         return prev.slice(0, props.formIndex).concat({
-          id: prev[props.formIndex].id, model: prev[props.formIndex].model.slice(0, i).concat({ key: prevModel.key, type: prevModel.type, isArray: prevModel.isArray, value: prevModel.value.slice(0, Number(v)) })
+          id: prev[props.formIndex].id,
+          model: prev[props.formIndex].model.slice(0, i).concat({
+            key: prevModel.key,
+            type: prevModel.type,
+            isArray: prevModel.isArray,
+            value: prevModel.value.slice(0, Number(v))
+          }).concat(prev[props.formIndex].model.slice(i + 1, prev[props.formIndex].model.length))
         }).concat(prev.slice(props.formIndex + 1, prev.length));
       } else {
         const prevModel = prev[props.formIndex].model[i];
         let addObj: Array<string | number | boolean> = Array<string | number | boolean>();
         [...Array(Number(v) - prev[props.formIndex].model[i].value.length)].forEach((_) => addObj.push(""));
         return prev.slice(0, props.formIndex).concat({
-          id: prev[props.formIndex].id, model: prev[props.formIndex].model.slice(0, i).concat({ key: prevModel.key, type: prevModel.type, isArray: prevModel.isArray, value: prevModel.value.concat(addObj) }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+          id: prev[props.formIndex].id,
+          model: prev[props.formIndex].model.slice(0, i).concat({
+            key: prevModel.key,
+            type: prevModel.type,
+            isArray: prevModel.isArray,
+            value: prevModel.value.concat(addObj)
+          }).concat(prev[props.formIndex].model.slice(i + 1, prev[props.formIndex].model.length))
         }).concat(prev.slice(props.formIndex + 1, prev.length));
       }
     });
+  }
+
+  const changeStringInputValue = (e: ChangeEvent<HTMLInputElement>, i: number, index: number) => {
+    setObjectsList((prev) => {
+      const prevModel = prev[props.formIndex].model[i];
+      return prev.slice(0, props.formIndex).concat({
+        id: prev[props.formIndex].id,
+        model: prev[props.formIndex].model.slice(0, i).concat({
+          key: prevModel.key,
+          type: prevModel.type,
+          isArray: prevModel.isArray,
+          value: prevModel.value.slice(0, index).concat(e.target.value).concat(prevModel.value.slice(index + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+      }).concat(prev.slice(props.formIndex + 1, prev.length));
+    })
+  }
+
+  const changeNumberInputValue = (v: string | number | undefined, i: number, index: number) => {
+    setObjectsList((prev) => {
+      const prevModel = prev[props.formIndex].model[i];
+      return prev.slice(0, props.formIndex).concat({
+        id: prev[props.formIndex].id,
+        model: prev[props.formIndex].model.slice(0, i).concat({
+          key: prevModel.key,
+          type: prevModel.type,
+          isArray: prevModel.isArray,
+          value: prevModel.value.slice(0, index).concat(Number(v)).concat(prevModel.value.slice(index + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+      }).concat(prev.slice(props.formIndex + 1, prev.length));
+    })
+  }
+
+  const changeBooleanInputValue = (e: { target: { checked: boolean; }; }, i: number, index: number) => {
+    setObjectsList((prev) => {
+      const prevModel = prev[props.formIndex].model[i];
+      return prev.slice(0, props.formIndex).concat({
+        id: prev[props.formIndex].id,
+        model: prev[props.formIndex].model.slice(0, i).concat({
+          key: prevModel.key,
+          type: prevModel.type,
+          isArray: prevModel.isArray,
+          value: prevModel.value.slice(0, index).concat(e.target.checked).concat(prevModel.value.slice(index + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+      }).concat(prev.slice(props.formIndex + 1, prev.length));
+    })
   }
 
   return (
@@ -80,13 +137,13 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           }
         }
 
-        const InputField: React.FC = () => {
+        const InputField: React.FC<{ index: number }> = (ifProps: { index: number }) => {
           if (e.type === InputTypes.string) {
-            return <Input placeholder="value"></Input>;
+            return <Input placeholder="value" defaultValue={objectsList[props.formIndex].model[i].value[ifProps.index]?.toString()} onChange={(e) => changeStringInputValue(e, i, ifProps.index)}></Input>;
           } else if (e.type === InputTypes.number) {
-            return <InputNumber placeholder="value"></InputNumber>;
+            return <InputNumber placeholder="value" defaultValue={Number(objectsList[props.formIndex].model[i].value[ifProps.index])} onChange={(e) => changeNumberInputValue(e, i, ifProps.index)}></InputNumber>;
           } else if (e.type === InputTypes.boolean) {
-            return <Checkbox></Checkbox>;
+            return <Checkbox defaultChecked={!!objectsList[props.formIndex].model[i].value[ifProps.index]} onChange={(e) => changeBooleanInputValue(e, i, ifProps.index)}></Checkbox>;
           } else {
             return <Input placeholder="value"></Input>;
           }
@@ -96,11 +153,11 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           <div>
             <ArraySize></ArraySize>
             <p>{e.value.length}</p>
-            {e.value.map((_) => {
+            {e.value.map((_, index) => {
               return (
                 <>
                   <label>{e.key} : </label>
-                  <InputField></InputField>
+                  <InputField index={index}></InputField>
                 </>
               );
             })}
