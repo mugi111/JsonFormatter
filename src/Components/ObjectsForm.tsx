@@ -3,9 +3,9 @@ import { Button, Checkbox, Input, InputNumber, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
 import { modelsListState, objectsListState } from '../Recoil/atom';
-import '../Styles/models-tab.scss';
 import { InputTypes, IObjectsElem } from '../Types';
 import { useRecoilValue } from 'recoil';
+import '../Styles/objects-form.scss';
 
 const { Option } = Select;
 
@@ -13,7 +13,7 @@ interface Props {
   formIndex: number;
 }
 
-export const ObjectsFormList: React.FC<Props> = (props: Props) => {
+export const ObjectsForm: React.FC<Props> = (props: Props) => {
   const modelsList = useRecoilValue(modelsListState);
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
 
@@ -118,7 +118,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <div className="models-tab">
+    <div className="objects-form">
       <h3>{objectsList[props.formIndex].id}</h3>
       <Select className="objects-form__select" onChange={changeModelTemplate}>
         {modelsList.map((_, i) => {
@@ -177,7 +177,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
         )
       }
       )}
-      <Button danger className="models-form__button" onClick={deleteObjectsFormList}>
+      <Button danger className="objects-form__button" onClick={deleteObjectsFormList}>
         <CloseOutlined />
       </Button>
     </div>

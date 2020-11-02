@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { ObjectsFormList } from './ObjectsFormList';
+import { ObjectsForm } from './ObjectsForm';
 import { useRecoilState } from 'recoil';
 import { objectsListState } from '../Recoil/atom';
-import '../Styles/models-tab.scss';
+import '../Styles/objects-tab.scss';
 
 export const ObjectsTab: React.FC = () => {
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
@@ -20,7 +20,7 @@ export const ObjectsTab: React.FC = () => {
     <div className="objects-tab">
       {objectsList.map((_, i) => {
         return (
-          <ObjectsFormList formIndex={i}></ObjectsFormList>
+          <ObjectsForm formIndex={i}></ObjectsForm>
         );
       })}
       <Button className="objects-tab__button" onClick={addObjectHandler}>
