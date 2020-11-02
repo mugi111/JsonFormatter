@@ -1,22 +1,26 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Select } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
-import { objectsListState } from '../Recoil/atom';
+import { modelsListState, objectsListState } from '../Recoil/atom';
 import '../Styles/models-tab.scss';
 import { InputTypes } from '../Types';
 import { ObjectsForm } from './ObjectsForm';
+import { useRecoilValue } from 'recoil';
+
+const { Option } = Select;
 
 interface Props {
   formIndex: number;
 }
 
 export const ObjectsFormList: React.FC<Props> = (props: Props) => {
+  const modelsList = useRecoilValue(modelsListState);
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
 
   const addObjectsFormList = () => {
     setObjectsList((prev) => {
-      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: [...prev[props.formIndex].contents, { model: { key: "", type: InputTypes.string, isArray: false }, value: "" }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, model: [...prev[props.formIndex].model, { key: "", type: InputTypes.string, isArray: false, value: [] }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
     })
   }
 
@@ -29,7 +33,15 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
   return (
     <div className="models-tab">
       <h3>{objectsList[props.formIndex].id}</h3>
-      {objectsList[props.formIndex].contents.map((_, i) => {
+      <Select className="objects-form__select" defaultValue={InputTypes.string} >
+        {objectsList.map((_, i) => {
+          return (
+            <Option value={objectsList[i].id}>{objectsList[i].id}</Option>
+          );
+        })}
+      </Select>
+
+      {objectsList[props.formIndex].model.map((_, i) => {
         return (
           <ObjectsForm formIndex={props.formIndex} objectIndex={i}></ObjectsForm>
         )

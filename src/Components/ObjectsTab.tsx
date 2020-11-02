@@ -12,7 +12,7 @@ export const ObjectsTab: React.FC = () => {
   const addObjectHandler = () => {
     setObjectsList((prev) => {
       const tmpId = prev.length === 0 ? 1 : prev[prev.length - 1].id + 1;
-      return prev.concat({ id: tmpId, contents: [] });
+      return prev.concat({ id: tmpId, model: [] });
     })
   }
 
