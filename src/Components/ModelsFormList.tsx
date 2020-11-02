@@ -14,6 +14,12 @@ interface Props {
 export const ModelsFormList: React.FC<Props> = (props: Props) => {
   const [modelsList, setModelsList] = useRecoilState(modelsListState)
 
+  const addFormHandler = () => {
+    setModelsList((prev) => {
+      return prev.slice(0, props.formIndex).concat([{ id: prev[props.formIndex].id, contents: [...prev[props.formIndex].contents, { key: "", isArray: false, type: InputTypes.string }] }]).concat(prev.slice((props.formIndex + 1), prev.length));
+    })
+  }
+
   const deleteObjectHandler = () => {
     if (modelsList.find((e) => e.contents.find((v) => v.type === modelsList[props.formIndex].id)) === undefined) {
       setModelsList((prev) => {
@@ -31,6 +37,9 @@ export const ModelsFormList: React.FC<Props> = (props: Props) => {
         )
       }
       )}
+      <Button className="models-tab__button" onClick={addFormHandler}>
+        <PlusOutlined />
+      </Button>
       <Button danger className="models-form__button" onClick={deleteObjectHandler}>
         <CloseOutlined />
       </Button>
