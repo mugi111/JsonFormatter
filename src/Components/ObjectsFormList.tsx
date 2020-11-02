@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FocusEvent } from 'react';
 import { Button, Checkbox, Input, InputNumber, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
@@ -77,12 +77,12 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           type: prevModel.type,
           isArray: prevModel.isArray,
           value: prevModel.value.slice(0, index).concat(e.target.value).concat(prevModel.value.slice(index + 1, prevModel.value.length))
-        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prev[props.formIndex].model.length))
       }).concat(prev.slice(props.formIndex + 1, prev.length));
     })
   }
 
-  const changeNumberInputValue = (v: string | number | undefined, i: number, index: number) => {
+  const changeNumberInputValue = (e: FocusEvent<HTMLInputElement>, i: number, index: number) => {
     setObjectsList((prev) => {
       const prevModel = prev[props.formIndex].model[i];
       return prev.slice(0, props.formIndex).concat({
@@ -91,8 +91,8 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           key: prevModel.key,
           type: prevModel.type,
           isArray: prevModel.isArray,
-          value: prevModel.value.slice(0, index).concat(Number(v)).concat(prevModel.value.slice(index + 1, prevModel.value.length))
-        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+          value: prevModel.value.slice(0, index).concat(Number(e.target.value)).concat(prevModel.value.slice(index + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prev[props.formIndex].model.length))
       }).concat(prev.slice(props.formIndex + 1, prev.length));
     })
   }
@@ -107,7 +107,7 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
           type: prevModel.type,
           isArray: prevModel.isArray,
           value: prevModel.value.slice(0, index).concat(e.target.checked).concat(prevModel.value.slice(index + 1, prevModel.value.length))
-        }).concat(prev[props.formIndex].model.slice(i + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].model.slice(i + 1, prev[props.formIndex].model.length))
       }).concat(prev.slice(props.formIndex + 1, prev.length));
     })
   }
@@ -139,9 +139,9 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
 
         const InputField: React.FC<{ index: number }> = (ifProps: { index: number }) => {
           if (e.type === InputTypes.string) {
-            return <Input placeholder="value" defaultValue={objectsList[props.formIndex].model[i].value[ifProps.index]?.toString()} onChange={(e) => changeStringInputValue(e, i, ifProps.index)}></Input>;
+            return <Input placeholder="value" defaultValue={objectsList[props.formIndex].model[i].value[ifProps.index]?.toString()} onBlur={(e) => changeStringInputValue(e, i, ifProps.index)}></Input>;
           } else if (e.type === InputTypes.number) {
-            return <InputNumber placeholder="value" defaultValue={Number(objectsList[props.formIndex].model[i].value[ifProps.index])} onChange={(e) => changeNumberInputValue(e, i, ifProps.index)}></InputNumber>;
+            return <InputNumber placeholder="value" defaultValue={Number(objectsList[props.formIndex].model[i].value[ifProps.index])} onBlur={(e) => changeNumberInputValue(e, i, ifProps.index)}></InputNumber>;
           } else if (e.type === InputTypes.boolean) {
             return <Checkbox defaultChecked={!!objectsList[props.formIndex].model[i].value[ifProps.index]} onChange={(e) => changeBooleanInputValue(e, i, ifProps.index)}></Checkbox>;
           } else {
