@@ -33,10 +33,10 @@ export const ObjectsFormList: React.FC<Props> = (props: Props) => {
   return (
     <div className="models-tab">
       <h3>{objectsList[props.formIndex].id}</h3>
-      <Select className="objects-form__select" defaultValue={InputTypes.string} >
-        {objectsList.map((_, i) => {
+      <Select className="objects-form__select">
+        {modelsList.map((_, i) => {
           return (
-            <Option value={objectsList[i].id}>{objectsList[i].id}</Option>
+            <Option value={modelsList[i].id}>{modelsList[i].id}</Option>
           );
         })}
       </Select>
