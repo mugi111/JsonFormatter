@@ -16,7 +16,7 @@ export interface IModelsListBase {
 
 export interface IModelsList extends IModelsListBase {
   // contents: IModelsElem[];
-  id: number;
+  id: string;
 }
 
 export interface IObjectsElem extends IModelsElem {
@@ -27,7 +27,7 @@ export interface IObjectsElem extends IModelsElem {
 }
 
 export interface IObjectsList {
-  id: number;
-  modelId: number;
+  id: string;
+  modelId: string;
   model: IObjectsElem[];
 }

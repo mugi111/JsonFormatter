@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ModelsFormList } from './ModelsFormList';
 import { useRecoilState } from 'recoil';
 import { modelsListState } from '../Recoil/atom';
+import { v4 as uuidv4 } from 'uuid';
 import '../Styles/models-tab.scss';
 
 export const ModelsTab: React.FC = () => {
@@ -11,8 +12,7 @@ export const ModelsTab: React.FC = () => {
 
   const addObjectHandler = () => {
     setModelsList((prev) => {
-      const tmpId = prev.length === 0 ? 1 : prev[prev.length - 1].id + 1;
-      return prev.concat({ id: tmpId, contents: [] });
+      return prev.concat({ id: uuidv4(), contents: [] });
     })
   }
 

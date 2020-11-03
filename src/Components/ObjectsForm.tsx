@@ -23,7 +23,7 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
-  const changeModelTemplate = (v: number) => {
+  const changeModelTemplate = (v: string) => {
     setObjectsList((prev) => {
       const model = modelsList.find((e) => e.id === v);
       let object: IObjectsElem[] = [];
