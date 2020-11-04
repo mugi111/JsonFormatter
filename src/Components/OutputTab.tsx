@@ -19,20 +19,48 @@ export const OutputTab: React.FC = () => {
     console.log(selectedObj);
   }
 
-  const addCurlyBracesOpen = () => {
+  const addIndent = () => {
     for (let i = 0; i < indentCount; i++) {
-      setOutputObj((prev) => prev + " ");
+      setOutputObj((prev) => prev + "  ");
       setIndentCount((prev) => prev + 1);
     }
-    setOutputObj((prev) => prev + "{");
+  }
+
+  const reduceIndent = () => {
+    for (let i = 0; i < indentCount; i++) {
+      setOutputObj((prev) => prev + "  ");
+      setIndentCount((prev) => prev - 1);
+    }
+  }
+
+  const addBracketsOpen = (bracket: string) => {
+    addIndent();
+    setOutputObj((prev) => prev + bracket);
+  }
+
+  const addBracketsClose = (bracket: string) => {
+    reduceIndent();
+    setOutputObj((prev) => prev + bracket);
+  }
+
+  const addCurlyBracesOpen = () => {
+    addBracketsOpen("{");
   }
 
   const addCurlyBracesClose = () => {
-    for (let i = 0; i < indentCount; i++) {
-      setOutputObj((prev) => prev + " ");
-      setIndentCount((prev) => prev - 1);
-    }
-    setOutputObj((prev) => prev + "}");
+    addBracketsClose("}");
+  }
+
+  const addSquireBracketsOpen = () => {
+    addBracketsOpen("[");
+  }
+
+  const addSquireBracketsClose = () => {
+    addBracketsClose("]");
+  }
+
+  const addComma = () => {
+    setOutputObj((prev) => prev + " ,");
   }
 
   return (
