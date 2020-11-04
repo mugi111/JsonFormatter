@@ -12,7 +12,7 @@ export const ObjectsTab: React.FC = () => {
 
   const addObjectHandler = () => {
     setObjectsList((prev) => {
-      return prev.concat({ id: uuidv4(), modelId: "", model: [] });
+      return prev.concat({ name: "Object", id: uuidv4(), modelId: "", contents: [] });
     })
   }
 

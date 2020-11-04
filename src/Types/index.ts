@@ -11,12 +11,12 @@ export interface IModelsElem {
 }
 
 export interface IModelsListBase {
-  contents: IModelsElem[];
+  name: string;
+  id: string;
 }
 
 export interface IModelsList extends IModelsListBase {
-  // contents: IModelsElem[];
-  id: string;
+  contents: IModelsElem[];
 }
 
 export interface IObjectsElem extends IModelsElem {
@@ -26,8 +26,7 @@ export interface IObjectsElem extends IModelsElem {
   value: Array<string | number | boolean>;
 }
 
-export interface IObjectsList {
-  id: string;
+export interface IObjectsList extends IModelsListBase {
   modelId: string;
-  model: IObjectsElem[];
+  contents: IObjectsElem[];
 }
