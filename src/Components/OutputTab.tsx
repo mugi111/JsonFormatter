@@ -7,7 +7,9 @@ const { Option } = Select;
 
 export const OutputTab: React.FC = () => {
   const objectsList = useRecoilValue(objectsListState);
+  const [outputObj, setOutputObj] = useState<string>("");
   const [selectedObj, setSelectedObj] = useState<string>("");
+  const [indentCount, setIndentCount] = useState<number>(0);
 
   const changeSelectObject = (v: string) => {
     setSelectedObj(v)
@@ -15,6 +17,22 @@ export const OutputTab: React.FC = () => {
 
   const output = () => {
     console.log(selectedObj);
+  }
+
+  const addCurlyBracesOpen = () => {
+    for (let i = 0; i < indentCount; i++) {
+      setOutputObj((prev) => prev + " ");
+      setIndentCount((prev) => prev + 1);
+    }
+    setOutputObj((prev) => prev + "{");
+  }
+
+  const addCurlyBracesClose = () => {
+    for (let i = 0; i < indentCount; i++) {
+      setOutputObj((prev) => prev + " ");
+      setIndentCount((prev) => prev - 1);
+    }
+    setOutputObj((prev) => prev + "}");
   }
 
   return (
@@ -28,7 +46,7 @@ export const OutputTab: React.FC = () => {
       }
       )}
       <Button onClick={output}>Output</Button>
-      <Input value={selectedObj}></Input>
+      <Input value={outputObj}></Input>
     </div>
   )
 }
