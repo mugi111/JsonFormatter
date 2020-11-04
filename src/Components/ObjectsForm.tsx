@@ -134,7 +134,7 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
             return (
               <>
                 <label>ArraySize</label>
-                <InputNumber placeholder="Array Size" value={e.value.length} onChange={(v) => changeArraySize(v, i)}></InputNumber>
+                <InputNumber placeholder="Array Size" min={0} value={e.value.length} onChange={(v) => changeArraySize(v, i)}></InputNumber>
               </>
             );
           } else {
@@ -180,6 +180,6 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
       <Button danger className="objects-form__button" onClick={deleteObjectsFormList}>
         <CloseOutlined />
       </Button>
-    </div>
+    </div >
   )
 }
