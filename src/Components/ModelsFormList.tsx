@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { ModelsForm } from './ModelsForm';
 import { useRecoilState } from 'recoil';
@@ -12,7 +12,8 @@ interface Props {
 }
 
 export const ModelsFormList: React.FC<Props> = (props: Props) => {
-  const [modelsList, setModelsList] = useRecoilState(modelsListState)
+  const [modelsList, setModelsList] = useRecoilState(modelsListState);
+  const [modelNameState, setModelNameState] = useState(false);
 
   const addFormHandler = () => {
     setModelsList((prev) => {
@@ -28,9 +29,17 @@ export const ModelsFormList: React.FC<Props> = (props: Props) => {
     }
   }
 
+  const SwitchModelName: React.FC = () => {
+    if (modelNameState) {
+      return <Input placeholder="Model Name" value={modelsList[props.formIndex].id}></Input>
+    } else {
+      return <text onClick={(_) => setModelNameState(true)}>{modelsList[props.formIndex].id}</text>
+    }
+  }
+
   return (
     <div className="models-tab">
-      <h3>{modelsList[props.formIndex].id}</h3>
+      <SwitchModelName></SwitchModelName>
       {modelsList[props.formIndex].contents.map((_, i) => {
         return (
           <ModelsForm formIndex={props.formIndex} modelIndex={i}></ModelsForm>
