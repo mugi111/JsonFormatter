@@ -169,7 +169,6 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
         return (
           <div>
             <ArraySize></ArraySize>
-            <p>{e.value.length}</p>
             <label>{e.key} : </label>
             {e.value.map((_, index) => {
               return (
