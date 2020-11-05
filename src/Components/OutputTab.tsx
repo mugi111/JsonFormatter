@@ -13,16 +13,16 @@ export const OutputTab: React.FC = () => {
   const [indentCount, setIndentCount] = useState<number>(0);
 
   const changeSelectObject = (v: string) => {
-    setSelectedObj(v)
+    setSelectedObj(v);
   }
 
   const output = () => {
-    console.log(selectedObj);
     const obj = objectsList.find((e) => e.id === selectedObj);
     (obj != null) ? searchObject(obj) : console.log("undefined");
   }
 
   const searchObject = (obj: IObjectsList) => {
+    addCurlyBracesOpen();
     obj.contents.forEach((e) => {
       switch (e.type) {
         case InputTypes.string:
@@ -88,18 +88,46 @@ export const OutputTab: React.FC = () => {
     setOutputObj((prev) => prev + `"${key}" : `);
   }
 
-  const addString = (val: string) => {
-    setOutputObj((prev) => prev + `"${val}"`);
+  const addString = (val: string[], isArray: boolean = false) => {
+    if (isArray) {
+      let tmp: string;
+      addSquireBracketsOpen();
+      val.forEach((e) => {
+        tmp += `"${e}" ,`;
+      })
+      setOutputObj((prev) => prev + tmp);
+      addSquireBracketsClose();
+    } else {
+      setOutputObj((prev) => prev + `"${val[0]}"`);
+    }
   }
 
-  const addNumber = (val: number) => {
-    setOutputObj((prev) => prev + `${val}`);
+  const addNumber = (val: number[], isArray: boolean = false) => {
+    if (isArray) {
+      let tmp: string;
+      addSquireBracketsOpen();
+      val.forEach((e) => {
+        tmp += `${e} ,`;
+      })
+      setOutputObj((prev) => prev + tmp);
+      addSquireBracketsClose();
+    } else {
+      setOutputObj((prev) => prev + `${val[0]}`);
+    }
   }
 
-  const addBoolean = (val: boolean) => {
-    setOutputObj((prev) => {
-      return prev + (val ? ("true") : ("false"));
-    });
+  const addBoolean = (val: boolean[], isArray: boolean = false) => {
+    if (isArray) {
+      let tmp: string;
+      addSquireBracketsOpen();
+      val.forEach((e) => {
+        tmp += e ? "true ," : "false ,";
+      })
+      setOutputObj((prev) => prev + tmp);
+      addSquireBracketsClose();
+    } else {
+      setOutputObj((prev) => prev + (val[0] ? "true" : "false"));
+    }
   }
 
   return (
