@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input, Select } from 'antd';
 import { objectsListState } from '../Recoil/atom';
 import { useRecoilValue } from 'recoil';
+import { InputTypes, IObjectsList } from '../Types';
 
 const { Option } = Select;
 
@@ -17,6 +18,26 @@ export const OutputTab: React.FC = () => {
 
   const output = () => {
     console.log(selectedObj);
+    const obj = objectsList.find((e) => e.id === selectedObj);
+    (obj != null) ? searchObject(obj) : console.log("undefined");
+  }
+
+  const searchObject = (obj: IObjectsList) => {
+    obj.contents.forEach((e) => {
+      switch (e.type) {
+        case InputTypes.string:
+          console.log("String");
+          break;
+        case InputTypes.number:
+          console.log("number");
+          break;
+        case InputTypes.boolean:
+          console.log("boolean");
+          break;
+        default:
+          break;
+      }
+    })
   }
 
   const addIndent = () => {
@@ -64,7 +85,7 @@ export const OutputTab: React.FC = () => {
   }
 
   const addKey = (key: string) => {
-    setOutputObj((prev) => prev + `"${key}"`);
+    setOutputObj((prev) => prev + `"${key}" : `);
   }
 
   const addString = (val: string) => {

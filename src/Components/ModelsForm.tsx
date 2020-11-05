@@ -23,7 +23,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
-  const changeTypeHandler = (val: InputTypes | number) => {
+  const changeTypeHandler = (val: InputTypes | string) => {
     setModelsList((prev) => {
       const prevContent = prev[props.formIndex].contents;
       return prev.slice(0, props.formIndex).concat([{ name: prev[props.formIndex].name, id: prev[props.formIndex].id, contents: prevContent.slice(0, props.modelIndex).concat({ key: prevContent[props.modelIndex].key, isArray: prevContent[props.modelIndex].isArray, type: val }).concat(prevContent.slice(props.modelIndex + 1, prevContent.length)) }]).concat(prev.slice((props.formIndex + 1), prev.length));
