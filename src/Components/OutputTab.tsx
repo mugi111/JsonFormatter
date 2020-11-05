@@ -63,6 +63,24 @@ export const OutputTab: React.FC = () => {
     setOutputObj((prev) => prev + " ,");
   }
 
+  const addKey = (key: string) => {
+    setOutputObj((prev) => prev + `"${key}"`);
+  }
+
+  const addString = (val: string) => {
+    setOutputObj((prev) => prev + `"${val}"`);
+  }
+
+  const addNumber = (val: number) => {
+    setOutputObj((prev) => prev + `${val}`);
+  }
+
+  const addBoolean = (val: boolean) => {
+    setOutputObj((prev) => {
+      return prev + (val ? ("true") : ("false"));
+    });
+  }
+
   return (
     <div className="models-tab">
       {objectsList.map((e) => {
