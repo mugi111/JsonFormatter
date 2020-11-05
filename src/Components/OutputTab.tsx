@@ -41,7 +41,8 @@ export const OutputTab: React.FC = () => {
         default:
           break;
       }
-    })
+    });
+    addCurlyBracesClose();
   }
 
   const addIndent = () => {
@@ -85,11 +86,15 @@ export const OutputTab: React.FC = () => {
   }
 
   const addComma = () => {
-    setOutputObj((prev) => prev + " ,");
+    setOutputObj((prev) => prev + ", ");
   }
 
   const addKey = (key: string) => {
     setOutputObj((prev) => prev + `"${key}" : `);
+  }
+
+  const addReturn = () => {
+    setOutputObj((prev) => prev + "\n");
   }
 
   const addString = (val: string[], isArray: boolean = false) => {
@@ -104,6 +109,8 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + `"${val[0]}"`);
     }
+    addComma();
+    addReturn();
   }
 
   const addNumber = (val: number[], isArray: boolean = false) => {
@@ -118,6 +125,8 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + `${val[0]}`);
     }
+    addComma();
+    addReturn();
   }
 
   const addBoolean = (val: boolean[], isArray: boolean = false) => {
@@ -132,6 +141,8 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + (val[0] ? "true" : "false"));
     }
+    addComma();
+    addReturn();
   }
 
   return (
