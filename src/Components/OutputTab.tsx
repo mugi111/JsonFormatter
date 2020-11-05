@@ -24,15 +24,19 @@ export const OutputTab: React.FC = () => {
   const searchObject = (obj: IObjectsList) => {
     addCurlyBracesOpen();
     obj.contents.forEach((e) => {
+      addKey(e.key);
       switch (e.type) {
         case InputTypes.string:
           console.log("String");
+          addString(e.value as string[], e.isArray);
           break;
         case InputTypes.number:
           console.log("number");
+          addNumber(e.value as number[], e.isArray);
           break;
         case InputTypes.boolean:
           console.log("boolean");
+          addBoolean(e.value as boolean[], e.isArray);
           break;
         default:
           break;
@@ -118,7 +122,7 @@ export const OutputTab: React.FC = () => {
 
   const addBoolean = (val: boolean[], isArray: boolean = false) => {
     if (isArray) {
-      let tmp: string;
+      let tmp: string = "";
       addSquireBracketsOpen();
       val.forEach((e) => {
         tmp += e ? "true ," : "false ,";
