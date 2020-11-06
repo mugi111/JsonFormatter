@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Select } from 'antd';
+import { Button, Select } from 'antd';
 import { objectsListState } from '../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { InputTypes, IObjectsList } from '../Types';
@@ -168,7 +168,7 @@ export const OutputTab: React.FC = () => {
 
   return (
     <div className="models-tab">
-      <Select onChange={changeSelectObject}>
+      <Select value={selectedObj} onChange={changeSelectObject}>
         {objectsList.map((e) => {
           return (
             <Option value={e.id}>{e.name}</Option>

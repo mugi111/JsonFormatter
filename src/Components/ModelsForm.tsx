@@ -53,7 +53,7 @@ export const ModelsForm: React.FC<Props> = (props: Props) => {
         <Option value={InputTypes.boolean}>{InputTypes.boolean}</Option>
         {modelsList.map((_, i) => {
           return (
-            (props.formIndex !== i) ? (<Option value={modelsList[i].id}>{modelsList[i].id}</Option>) : (<></>)
+            (props.formIndex !== i) ? (<Option value={modelsList[i].id}>{modelsList[i].name}</Option>) : (<></>)
           )
         })}
       </Select>

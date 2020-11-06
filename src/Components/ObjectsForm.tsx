@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent } from 'react';
+import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import { Button, Checkbox, Input, InputNumber, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
@@ -17,6 +17,8 @@ interface Props {
 export const ObjectsForm: React.FC<Props> = (props: Props) => {
   const modelsList = useRecoilValue(modelsListState);
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
+  const [objectNameState, setObjectNameState] = useState(false);
+
 
   const deleteObjectsFormList = () => {
     setObjectsList((prev) => {
@@ -140,9 +142,24 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
+  const blurModelNameInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    setObjectNameState(false);
+    setObjectsList((prev) => {
+      return prev.slice(0, props.formIndex).concat([{ name: e.target.value, id: prev[props.formIndex].id, modelId: prev[props.formIndex].modelId, contents: prev[props.formIndex].contents }]).concat(prev.slice((props.formIndex + 1), prev.length));
+    });
+  }
+
+  const SwitchModelName: React.FC = () => {
+    if (objectNameState) {
+      return <Input placeholder="Model Name" defaultValue={modelsList[props.formIndex].name} onBlur={(e) => blurModelNameInput(e)}></Input>
+    } else {
+      return <text onClick={(_) => setObjectNameState(true)}>{modelsList[props.formIndex].name}</text>
+    }
+  }
+
   return (
     <div className="objects-form">
-      <h3>{objectsList[props.formIndex].name}</h3>
+      <SwitchModelName></SwitchModelName>
       <Select className="objects-form__select" onChange={changeModelTemplate}>
         {modelsList.map((_, i) => {
           return (
