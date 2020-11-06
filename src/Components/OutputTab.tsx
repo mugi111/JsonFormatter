@@ -39,6 +39,9 @@ export const OutputTab: React.FC = () => {
           addBoolean(e.value as boolean[], e.isArray);
           break;
         default:
+          const tmp = objectsList.find((v) => v.id === e.value[0]);
+          console.log(e.value, objectsList);
+          tmp != null ? searchObject(tmp) : console.log("undefined");
           break;
       }
     });
@@ -71,6 +74,7 @@ export const OutputTab: React.FC = () => {
 
   const addCurlyBracesOpen = () => {
     addBracketsOpen("{");
+    addReturn();
   }
 
   const addCurlyBracesClose = () => {
