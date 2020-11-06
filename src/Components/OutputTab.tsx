@@ -17,6 +17,7 @@ export const OutputTab: React.FC = () => {
   }
 
   const output = () => {
+    setOutputObj("");
     const obj = objectsList.find((e) => e.id === selectedObj);
     (obj != null) ? searchObject(obj) : console.log("undefined");
   }
@@ -167,16 +168,16 @@ export const OutputTab: React.FC = () => {
 
   return (
     <div className="models-tab">
-      {objectsList.map((e) => {
-        return (
-          <Select onChange={changeSelectObject}>
+      <Select onChange={changeSelectObject}>
+        {objectsList.map((e) => {
+          return (
             <Option value={e.id}>{e.name}</Option>
-          </Select>
-        )
-      }
-      )}
+          )
+        }
+        )}
+      </Select>
       <Button onClick={output}>Output</Button>
-      <Input value={outputObj}></Input>
+      <span style={{ display: "inline-block" }}>{outputObj}</span>
     </div>
   )
 }
