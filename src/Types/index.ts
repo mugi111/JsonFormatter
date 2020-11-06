@@ -7,7 +7,7 @@ export enum InputTypes {
 export interface IModelsElem {
   key: string;
   isArray: boolean;
-  type: InputTypes | number;
+  type: InputTypes | string;
 }
 
 export interface IModelsListBase {
@@ -22,7 +22,7 @@ export interface IModelsList extends IModelsListBase {
 export interface IObjectsElem extends IModelsElem {
   // key: string;
   // isArray: boolean;
-  // type: InputTypes | number;
+  // type: InputTypes | string;
   value: Array<string | number | boolean>;
 }
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent } from 'react';
+import React, { ChangeEvent, FocusEvent, useState } from 'react';
 import { Button, Checkbox, Input, InputNumber, Select } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { useRecoilState } from 'recoil';
@@ -6,6 +6,7 @@ import { modelsListState, objectsListState } from '../Recoil/atom';
 import { InputTypes, IObjectsElem } from '../Types';
 import { useRecoilValue } from 'recoil';
 import '../Styles/objects-form.scss';
+import { SelectValue } from 'antd/lib/select';
 
 const { Option } = Select;
 
@@ -16,6 +17,8 @@ interface Props {
 export const ObjectsForm: React.FC<Props> = (props: Props) => {
   const modelsList = useRecoilValue(modelsListState);
   const [objectsList, setObjectsList] = useRecoilState(objectsListState);
+  const [objectNameState, setObjectNameState] = useState(false);
+
 
   const deleteObjectsFormList = () => {
     setObjectsList((prev) => {
@@ -122,9 +125,41 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
     })
   }
 
+  const changeCustomInputValue = (v: SelectValue, i: number, index: number) => {
+    setObjectsList((prev) => {
+      const prevModel = prev[props.formIndex].contents[i];
+      return prev.slice(0, props.formIndex).concat({
+        name: prev[props.formIndex].name,
+        id: prev[props.formIndex].id,
+        modelId: prev[props.formIndex].modelId,
+        contents: prev[props.formIndex].contents.slice(0, i).concat({
+          key: prevModel.key,
+          type: prevModel.type,
+          isArray: prevModel.isArray,
+          value: prevModel.value.slice(0, index).concat(v.toString()).concat(prevModel.value.slice(index + 1, prevModel.value.length))
+        }).concat(prev[props.formIndex].contents.slice(i + 1, prev[props.formIndex].contents.length))
+      }).concat(prev.slice(props.formIndex + 1, prev.length));
+    })
+  }
+
+  const blurModelNameInput = (e: React.FocusEvent<HTMLInputElement>) => {
+    setObjectNameState(false);
+    setObjectsList((prev) => {
+      return prev.slice(0, props.formIndex).concat([{ name: e.target.value, id: prev[props.formIndex].id, modelId: prev[props.formIndex].modelId, contents: prev[props.formIndex].contents }]).concat(prev.slice((props.formIndex + 1), prev.length));
+    });
+  }
+
+  const SwitchModelName: React.FC = () => {
+    if (objectNameState) {
+      return <Input placeholder="Model Name" defaultValue={modelsList[props.formIndex].name} onBlur={(e) => blurModelNameInput(e)}></Input>
+    } else {
+      return <text onClick={(_) => setObjectNameState(true)}>{modelsList[props.formIndex].name}</text>
+    }
+  }
+
   return (
     <div className="objects-form">
-      <h3>{objectsList[props.formIndex].name}</h3>
+      <SwitchModelName></SwitchModelName>
       <Select className="objects-form__select" onChange={changeModelTemplate}>
         {modelsList.map((_, i) => {
           return (
@@ -157,7 +192,7 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
           } else {
             const matchList = objectsList.filter((e) => e.modelId === objectsList[props.formIndex].contents[i].type);
             return (
-              <Select>
+              <Select onChange={(v) => changeCustomInputValue(v, i, ifProps.index)}>
                 {matchList.map((e) => {
                   return <Option value={e.id}>{e.name}</Option>;
                 })}
