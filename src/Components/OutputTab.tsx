@@ -24,21 +24,33 @@ export const OutputTab: React.FC = () => {
 
   const searchObject = (obj: IObjectsList) => {
     addCurlyBracesOpen();
-    obj.contents.forEach((e) => {
+    obj.contents.forEach((e, i) => {
       console.log(e);
       addKey(e.key);
       switch (e.type) {
         case InputTypes.string:
           console.log("String");
           addString(e.value as string[], e.isArray);
+          if (i < obj.contents.length - 1) {
+            addComma();
+          }
+          addReturn();
           break;
         case InputTypes.number:
           console.log("number");
           addNumber(e.value as number[], e.isArray);
+          if (i < obj.contents.length - 1) {
+            addComma();
+          }
+          addReturn();
           break;
         case InputTypes.boolean:
           console.log("boolean");
           addBoolean(e.value as boolean[], e.isArray);
+          if (i < obj.contents.length - 1) {
+            addComma();
+          }
+          addReturn();
           break;
         default:
           let tmp: IObjectsList[] = [];
@@ -50,12 +62,16 @@ export const OutputTab: React.FC = () => {
           });
           if (e.isArray) {
             addSquireBracketsOpen();
-            tmp.forEach((v) => {
+            tmp.forEach((v, i) => {
               v != null ? searchObject(v) : console.log("undefined");
-              addComma();
+              if (i < tmp.length) {
+                addComma();
+              }
             })
             addSquireBracketsClose();
-            addComma();
+            if (i < obj.contents.length) {
+              addComma();
+            }
           } else {
             tmp != null ? searchObject(tmp[0]) : console.log("undefined");
           }
@@ -130,8 +146,6 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + `"${val[0]}"`);
     }
-    addComma();
-    addReturn();
   }
 
   const addNumber = (val: number[], isArray: boolean = false) => {
@@ -146,8 +160,6 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + `${val[0]}`);
     }
-    addComma();
-    addReturn();
   }
 
   const addBoolean = (val: boolean[], isArray: boolean = false) => {
@@ -162,8 +174,6 @@ export const OutputTab: React.FC = () => {
     } else {
       setOutputObj((prev) => prev + (val[0] ? "true" : "false"));
     }
-    addComma();
-    addReturn();
   }
 
   return (
