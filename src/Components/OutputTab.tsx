@@ -39,10 +39,21 @@ export const OutputTab: React.FC = () => {
           addBoolean(e.value as boolean[], e.isArray);
           break;
         default:
-          const tmp = objectsList.find((v) => v.id === e.value[0]);
-          console.log(e.value, objectsList);
-          tmp != null ? searchObject(tmp) : console.log("undefined");
-          break;
+          let tmp: IObjectsList[] = [];
+          e.value.forEach((v) => {
+            const finded = objectsList.find((v2) => v2.id === v);
+            if (finded != null) {
+              tmp.push(finded);
+            }
+          });
+          if (e.isArray) {
+            tmp.forEach((v) => {
+              v != null ? searchObject(v) : console.log("undefined");
+            })
+          } else {
+            tmp != null ? searchObject(tmp[0]) : console.log("undefined");
+          }
+          console.log(e.value, tmp); break;
       }
     });
     addCurlyBracesClose();
