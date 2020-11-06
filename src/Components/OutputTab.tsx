@@ -64,12 +64,12 @@ export const OutputTab: React.FC = () => {
             addSquireBracketsOpen();
             tmp.forEach((v, i) => {
               v != null ? searchObject(v) : console.log("undefined");
-              if (i < tmp.length) {
+              if (i < tmp.length - 1) {
                 addComma();
               }
             })
             addSquireBracketsClose();
-            if (i < obj.contents.length) {
+            if (i < obj.contents.length - 1) {
               addComma();
             }
           } else {
@@ -138,8 +138,12 @@ export const OutputTab: React.FC = () => {
     if (isArray) {
       let tmp: string = "";
       addSquireBracketsOpen();
-      val.forEach((e) => {
-        tmp += `"${e}" ,`;
+      val.forEach((e, i) => {
+        if (i < val.length - 1) {
+          tmp += `"${e}" ,`;
+        } else {
+          tmp += `"${e}"`;
+        }
       })
       setOutputObj((prev) => prev + tmp);
       addSquireBracketsClose();
@@ -152,8 +156,12 @@ export const OutputTab: React.FC = () => {
     if (isArray) {
       let tmp: string = "";
       addSquireBracketsOpen();
-      val.forEach((e) => {
-        tmp += `${e} ,`;
+      val.forEach((e, i) => {
+        if (i < val.length - 1) {
+          tmp += `${e} ,`;
+        } else {
+          tmp += `${e}`;
+        }
       })
       setOutputObj((prev) => prev + tmp);
       addSquireBracketsClose();
@@ -166,8 +174,12 @@ export const OutputTab: React.FC = () => {
     if (isArray) {
       let tmp: string = "";
       addSquireBracketsOpen();
-      val.forEach((e) => {
-        tmp += e ? "true ," : "false ,";
+      val.forEach((e, i) => {
+        if (i < val.length - 1) {
+          tmp += e ? "true ," : "false ,";
+        } else {
+          tmp += e ? "true" : "false";
+        }
       })
       setOutputObj((prev) => prev + tmp);
       addSquireBracketsClose();
