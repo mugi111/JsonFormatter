@@ -24,6 +24,7 @@ export const OutputTab: React.FC = () => {
   const searchObject = (obj: IObjectsList) => {
     addCurlyBracesOpen();
     obj.contents.forEach((e) => {
+      console.log(e);
       addKey(e.key);
       switch (e.type) {
         case InputTypes.string:
@@ -47,9 +48,13 @@ export const OutputTab: React.FC = () => {
             }
           });
           if (e.isArray) {
+            addSquireBracketsOpen();
             tmp.forEach((v) => {
               v != null ? searchObject(v) : console.log("undefined");
+              addComma();
             })
+            addSquireBracketsClose();
+            addComma();
           } else {
             tmp != null ? searchObject(tmp[0]) : console.log("undefined");
           }
@@ -114,7 +119,7 @@ export const OutputTab: React.FC = () => {
 
   const addString = (val: string[], isArray: boolean = false) => {
     if (isArray) {
-      let tmp: string;
+      let tmp: string = "";
       addSquireBracketsOpen();
       val.forEach((e) => {
         tmp += `"${e}" ,`;
@@ -130,7 +135,7 @@ export const OutputTab: React.FC = () => {
 
   const addNumber = (val: number[], isArray: boolean = false) => {
     if (isArray) {
-      let tmp: string;
+      let tmp: string = "";
       addSquireBracketsOpen();
       val.forEach((e) => {
         tmp += `${e} ,`;
