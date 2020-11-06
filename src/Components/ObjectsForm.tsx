@@ -149,17 +149,17 @@ export const ObjectsForm: React.FC<Props> = (props: Props) => {
     });
   }
 
-  const SwitchModelName: React.FC = () => {
+  const SwitchObjectName: React.FC = () => {
     if (objectNameState) {
-      return <Input placeholder="Model Name" defaultValue={modelsList[props.formIndex].name} onBlur={(e) => blurModelNameInput(e)}></Input>
+      return <Input placeholder="Model Name" defaultValue={objectsList[props.formIndex].name} onBlur={(e) => blurModelNameInput(e)}></Input>
     } else {
-      return <text onClick={(_) => setObjectNameState(true)}>{modelsList[props.formIndex].name}</text>
+      return <text onClick={(_) => setObjectNameState(true)}>{objectsList[props.formIndex].name}</text>
     }
   }
 
   return (
     <div className="objects-form">
-      <SwitchModelName></SwitchModelName>
+      <SwitchObjectName></SwitchObjectName>
       <Select className="objects-form__select" onChange={changeModelTemplate}>
         {modelsList.map((_, i) => {
           return (
