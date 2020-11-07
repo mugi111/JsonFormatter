@@ -73,12 +73,15 @@ export const OutputTab: React.FC = () => {
             }
           } else {
             tmp != null ? searchObject(tmp[0]) : console.log("undefined");
+            if (i < obj.contents.length - 1) {
+              addComma();
+              addReturn();
+            }
           }
-          console.log(e.value, tmp); break;
+          break;
       }
     });
     addCurlyBracesClose();
-    console.log(outputObj);
   }
 
   const addIndent = () => {
