@@ -10,7 +10,7 @@ export const OutputTab: React.FC = () => {
   const objectsList = useRecoilValue(objectsListState);
   const [outputObj, setOutputObj] = useState<string>("");
   const [selectedObj, setSelectedObj] = useState<string>("");
-  const [indentCount, setIndentCount] = useState<number>(0);
+  let indentCount = 0;
 
   const changeSelectObject = (v: string) => {
     setSelectedObj(v);
@@ -18,6 +18,7 @@ export const OutputTab: React.FC = () => {
 
   const output = () => {
     setOutputObj("");
+    indentCount = 0;
     const obj = objectsList.find((e) => e.id === selectedObj);
     (obj != null) ? searchObject(obj) : console.log("undefined");
   }
@@ -25,11 +26,10 @@ export const OutputTab: React.FC = () => {
   const searchObject = (obj: IObjectsList) => {
     addCurlyBracesOpen();
     obj.contents.forEach((e, i) => {
-      console.log(e);
+      addIndent();
       addKey(e.key);
       switch (e.type) {
         case InputTypes.string:
-          console.log("String");
           addString(e.value as string[], e.isArray);
           if (i < obj.contents.length - 1) {
             addComma();
@@ -37,7 +37,6 @@ export const OutputTab: React.FC = () => {
           addReturn();
           break;
         case InputTypes.number:
-          console.log("number");
           addNumber(e.value as number[], e.isArray);
           if (i < obj.contents.length - 1) {
             addComma();
@@ -45,7 +44,6 @@ export const OutputTab: React.FC = () => {
           addReturn();
           break;
         case InputTypes.boolean:
-          console.log("boolean");
           addBoolean(e.value as boolean[], e.isArray);
           if (i < obj.contents.length - 1) {
             addComma();
@@ -79,38 +77,33 @@ export const OutputTab: React.FC = () => {
       }
     });
     addCurlyBracesClose();
+    console.log(outputObj);
   }
 
   const addIndent = () => {
     for (let i = 0; i < indentCount; i++) {
-      setOutputObj((prev) => prev + "  ");
-      setIndentCount((prev) => prev + 1);
-    }
-  }
-
-  const reduceIndent = () => {
-    for (let i = 0; i < indentCount; i++) {
-      setOutputObj((prev) => prev + "  ");
-      setIndentCount((prev) => prev - 1);
+      setOutputObj((prev) => prev + '  ');
     }
   }
 
   const addBracketsOpen = (bracket: string) => {
-    addIndent();
     setOutputObj((prev) => prev + bracket);
   }
 
   const addBracketsClose = (bracket: string) => {
-    reduceIndent();
     setOutputObj((prev) => prev + bracket);
   }
 
   const addCurlyBracesOpen = () => {
+    addIndent();
     addBracketsOpen("{");
+    indentCount++;
     addReturn();
   }
 
   const addCurlyBracesClose = () => {
+    indentCount--;
+    addIndent();
     addBracketsClose("}");
   }
 
