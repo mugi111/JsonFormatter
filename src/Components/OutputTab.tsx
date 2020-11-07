@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Select } from 'antd';
+import { Button, Select, Input } from 'antd';
 import { objectsListState } from '../Recoil/atom';
 import { useRecoilValue } from 'recoil';
 import { InputTypes, IObjectsList } from '../Types';
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 export const OutputTab: React.FC = () => {
   const objectsList = useRecoilValue(objectsListState);
@@ -192,7 +193,7 @@ export const OutputTab: React.FC = () => {
         )}
       </Select>
       <Button onClick={output}>Output</Button>
-      <span style={{ display: "inline-block" }}>{outputObj}</span>
+      <TextArea value={outputObj}></TextArea>
     </div>
   )
 }
